@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stellar Robotics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .stellar-navbar * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .stellar-navbar {
+      font-family: 'Orbitron', sans-serif;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(to right, #0a0a1a, #131a2d); /* 更深背景 */
+      box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+      border-bottom: 1px solid #00e5ff; /* 提亮边框 */
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+    }
+
+    .stellar-navbar .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #ffffff;
+      text-shadow: 0 0 5px #00e5ff;
+    }
+
+    .stellar-navbar .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .stellar-navbar .nav-links,
+    .stellar-navbar .nav-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .stellar-navbar .nav-links {
+      gap: 2rem;
+    }
+
+    .stellar-navbar .nav-links a {
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .stellar-navbar .nav-links a:hover,
+    .stellar-navbar .nav-links a.active {
+      color: #00e5ff;
+    }
+
+    .stellar-navbar .nav-links a.active::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background-color: #00e5ff;
+      margin-top: 4px;
+      border-radius: 4px;
+    }
+
+    .stellar-navbar .nav-right {
+      gap: 1rem;
+    }
+
+    .stellar-navbar .contact-btn {
+      background: #ffffff;
+      color: #0a0a1a;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid #00e5ff;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .stellar-navbar .contact-btn:hover {
+      background: #00e5ff;
+      color: #000;
+    }
+
+    .stellar-navbar .search-icon {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      stroke: #ffffff;
+      transition: stroke 0.3s;
+    }
+
+    .stellar-navbar .search-icon:hover {
+      stroke: #00e5ff;
+    }
+
+    .stellar-navbar-spacer {
+      height: 72px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🚀 独立导航栏组件（样式完全隔离） -->
+<header class="stellar-navbar">
+  <div class="logo">
+    <img src="logo.jpg" alt="Logo"> Stellar Robotics
+  </div>
+
+  <nav class="nav-links">
+    <a href="#home" onclick="stellarScrollToSection(event, 'home')" class="active">Home</a>
+    <a href="#technology" onclick="stellarScrollToSection(event, 'technology')">Technology</a>
+    <a href="#product" onclick="stellarScrollToSection(event, 'product')">Product</a>
+    <a href="#about" onclick="stellarScrollToSection(event, 'about')">About us</a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="contact-btn" onclick="scrollToContact()">Contact us</button>
+    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+    </svg>
+  </div>
+</header>
+
+<!-- Spacer to offset fixed nav -->
+<div class="stellar-navbar-spacer" id="home"></div>
+
+<script>
+  function stellarScrollToSection(event, id) {
+    event.preventDefault();
+    const target = document.getElementById(id);
+    if (!target) return;
+    const offset = 72;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  function scrollToContact() {
+    const target = document.getElementById('contact');
+    if (!target) return;
+    window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+  }
+
+  const stellarNavLinks = document.querySelectorAll(".stellar-navbar .nav-links a");
+  const stellarSectionIds = Array.from(stellarNavLinks).map(link => link.getAttribute("href").substring(1));
+  const stellarSections = stellarSectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  const stellarObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stellarNavLinks.forEach(link => {
+            link.classList.toggle("active", link.getAttribute("href").substring(1) === entry.target.id);
+          });
+        }
+      });
+    },
+    { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+  );
+
+  stellarSections.forEach(section => stellarObserver.observe(section));
+</script>
+
+<!-- 页面底部示例锚点（你已有 contact 部分时，请确保它存在） -->
+
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Overview</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* === Carousel === */
+    .carousel {
+      position: relative;
+      height: 80vh;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 0;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .carousel-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      z-index: 2;
+    }
+
+    .carousel-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .carousel-content p {
+      font-size: 1.2rem;
+    }
+
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    .carousel-nav button {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .carousel-content p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === Carousel Section === -->
+  <div class="carousel" id="carousel">
+    <div class="carousel-slide active" style="background-image: url('https://cdn.pixabay.com/photo/2020/07/23/15/34/mother-board-5431664_1280.jpg');">
+      <div class="carousel-content">
+        <h2>Flexible movement</h2>
+        <p>Omnidirectional chassis for agile obstacle avoidance.</p>
+      </div>
+    </div>
+    <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b');">
+      <div class="carousel-content">
+        <h2>Precise gripping</h2>
+        <p>Infrared sensing ensures accurate pick-and-place.</p>
+      </div>
+    </div>
+    <div class="carousel-slide" style="background-image: url('https://media.istockphoto.com/id/1155913762/ja/%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF%E3%83%95%E3%82%A9%E3%83%88/%E3%82%A4%E3%83%8E%E3%83%99%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%A8%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%AE%E6%A6%82%E5%BF%B5.jpg?s=2048x2048&w=is&k=20&c=tKvd88rhv3EmrzHAQgUUq233Fle0cUdRQT9SEcm8vEg=');">
+      <div class="carousel-content">
+        <h2>Trusted quality</h2>
+        <p>Multi-layer testing guarantees performance.</p>
+      </div>
+    </div>
+    <div class="carousel-slide" style="background-image: url('https://cdn.pixabay.com/photo/2019/07/13/10/32/desk-4334506_1280.jpg');">
+      <div class="carousel-content">
+        <h2>Expertise-driven</h2>
+        <p>Innovative solutions powered by R&amp;D excellence.</p>
+      </div>
+    </div>
+    <div class="carousel-nav">
+      <button onclick="prevSlide()">&#10094;</button>
+      <button onclick="nextSlide()">&#10095;</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.carousel-slide');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+      });
+      slides[index].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    setInterval(nextSlide, 10000); // 自动轮播每 10 秒
+  </script>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logo Innovation Section</title>
+
+  <!-- 引入 Orbitron 字体（可替换为你实际项目中的字体） -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0f2a;
+      font-family: sans-serif;
+      color: white;
+    }
+
+    /* 封装的 Logo 创新模块 */
+    .logo-innovation-wrapper {
+      background-color: #0b0f2a;
+      padding: 3rem 1rem;
+    }
+
+    .logo-innovation-content {
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Orbitron', sans-serif;
+      color: #00e0ff;
+      text-align: justify;
+    }
+
+    .logo-innovation-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      text-shadow: 0 0 10px #00e0ff;
+    }
+
+    .logo-innovation-content img {
+      display: block;
+      margin: 0 auto 1.5rem auto;
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00e0ff90;
+    }
+
+    .logo-innovation-content p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #d2faff;
+      text-align: justify;
+    }
+
+    @media (min-width: 640px) {
+      .logo-innovation-content h2 {
+        font-size: 2.5rem;
+      }
+
+      .logo-innovation-content p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo 创新模块 -->
+  <section class="logo-innovation-wrapper">
+    <div class="logo-innovation-content">
+      <h2>Logo Design Innovation</h2>
+      <img src="logo.jpg" alt="Company Logo" />
+      <p>
+        Our logo creatively integrates the initial <strong>"S"</strong> from our company name, embodying a futuristic cosmic-tech style. The gear element symbolizes engineering excellence and systematic precision, while the glowing curves reflect innovation and advancement in science and technology.
+      </p>
+    </div>
+  </section>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Environmental Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    section {
+      padding: 4rem 2rem;
+    }
+
+    /* Welcome section with scoped styles */
+    .welcome-themed {
+      background: radial-gradient(circle at top, #0d0c1d 0%, #1a1a2e 100%);
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .welcome-themed h2 {
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #00ffff;
+    }
+
+    .welcome-themed p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.4rem;
+      text-align: justify;
+      line-height: 1.8;
+      color: #e6faff;
+    }
+
+    /* Core Business section with Orbitron font and scoped styles */
+    .core-business-themed {
+      background: linear-gradient(to bottom, #0d0c1d, #1a1a2e);
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .core-business-themed h2 {
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #00ffff;
+    }
+
+    .core-business-themed p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.4rem;
+      text-align: justify;
+      line-height: 1.9;
+      color: #e6faff;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 3rem auto 0;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+    }
+
+    .card img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 5px #00ffffaa);
+    }
+
+    .card h3 {
+      font-size: 1.6rem;
+      margin: 0.5rem 0;
+      color: #00ffff;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #00bfff;
+      color: white;
+      padding: 0.5rem 1.4rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      margin-top: 1rem;
+      height: 36px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .card-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Welcome Section -->
+<section class="welcome-themed">
+  <h2>Welcome to Stellar Robotics</h2>
+  <p>
+    We provide smart hardware and automation solutions. With expertise in embedded design, AI control, and system integration, we help businesses transition into intelligent, efficient operations.
+  </p>
+</section>
+
+<!-- Core Business Section -->
+<section class="core-business-themed">
+  <h2>Core Business</h2>
+  <p>
+    Our flagship product: a smart waste collection vehicle equipped with Arduino control, AI-based sorting, and automated cleaning. Designed for industries, campuses, and cities seeking sustainable, intelligent sanitation solutions.
+  </p>
+
+  <div class="card-container">
+    <!-- Card 1 -->
+    <div class="card">
+      <img src="https://img.icons8.com/color/96/000000/earth-planet.png" alt="Environmental">
+      <h3>Environment</h3>
+      <div class="badge">Smart Eco</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <img src="https://img.icons8.com/fluency/96/artificial-intelligence.png" alt="Sorting">
+      <h3>Smart Sorting</h3>
+      <div class="badge">AI System</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <img src="https://img.icons8.com/fluency/96/vacuum-cleaner.png" alt="Automated Clean">
+      <h3>Auto Cleaning</h3>
+      <div class="badge">Efficiency</div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card">
+      <img src="https://img.icons8.com/fluency/96/chip.png" alt="Arduino Controller">
+      <h3>Arduino Control</h3>
+      <div class="badge">User Friendly</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technology Section</title>
+
+  <!-- Orbitron 字体导入 -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Technology Section Scoped Styles */
+    .tech-section-themed {
+      background: linear-gradient(to bottom right, #0a0f2c, #121933);
+      color: #e0f7fa;
+      padding: 4rem 1rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .tech-section-themed h2 {
+      text-align: center;
+      font-size: 2.8rem;
+      color: #00e5ff;
+      margin-bottom: 2.5rem;
+      letter-spacing: 1.5px;
+    }
+
+    .tech-feature {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tech-item {
+      flex: 1 1 420px;
+      min-width: 300px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: justify;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+      backdrop-filter: blur(4px);
+    }
+
+    .tech-item svg {
+      display: block;
+      margin: 0 auto 1rem auto;
+      width: 40px;
+      height: 40px;
+      fill: #00e5ff;
+    }
+
+    .tech-item h3 {
+      color: #00e5ff;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .tech-item p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: #d0f4ff;
+    }
+
+    @media (max-width: 768px) {
+      .tech-feature {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 技术部分，局部主题化 -->
+<section class="tech-section-themed" id="technology">
+  <h2>Technology Strength</h2>
+
+  <div class="tech-feature">
+    <div class="tech-item">
+      <!-- Icon: Circuit Board -->
+      <svg viewBox="0 0 24 24">
+        <path d="M4 4h4v4H4V4m6 0h10v10h-4v4h-4v-4H4V10h4V6h2V4m0 6v4h4v-4h-4z" />
+      </svg>
+      <h3>Advanced Arduino Integration</h3>
+      <p>
+        We develop high-performance embedded systems using Arduino, integrating sensors, motor drivers, and wireless modules. Our optimized algorithms ensure precise control and reliable automation in various applications.
+      </p>
+    </div>
+
+    <div class="tech-item">
+      <!-- Icon: 3D Cube -->
+      <svg viewBox="0 0 24 24">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73L13 2.27a2 2 0 0 0-2 0L4 6.27A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.73M12 22v-6.5l-7-4V8l7 4 7-4v3.5l-7 4V22z" />
+      </svg>
+      <h3>Precision 3D Modeling</h3>
+      <p>
+        Utilizing state-of-the-art 3D modeling and printing, we create durable, customized components tailored to client specifications. Our process ensures structural integrity, aesthetic precision, and production efficiency.
+      </p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Technology Cards - Final Version</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .tech-section {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d0c1d 0%, #1a1a2e 100%);
+      color: #ffffff;
+      overflow: hidden;
+      padding: 5rem 1rem;
+    }
+
+    .tech-section .card-wrapper {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .tech-section .tech-card-wrapper {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .tech-section .tech-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+      text-align: justify;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    .tech-section .tech-card.active {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    /* Right side appear */
+    .tech-section .tech-card.from-right {
+      transform: translateX(100%);
+    }
+
+    .tech-section .tech-card.from-right.active {
+      transform: translateX(0);
+    }
+
+    .tech-section .tech-card h3 {
+      font-size: 1.5rem;
+      color: #00ffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .tech-section .tech-card p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .tech-section .tech-card ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    .tech-section .tech-card li::before {
+      content: "🔹 ";
+    }
+
+    .tech-section .tech-card img {
+      width: 100px;
+      height: auto;
+      filter: brightness(0.5) blur(1px) drop-shadow(0 0 5px #00f0ff);
+      flex-shrink: 0;
+      margin-left: 2rem;
+    }
+
+    /* Reverse layout for right-side cards */
+    .tech-section .tech-card.right-layout {
+      flex-direction: row-reverse;
+    }
+
+    .tech-section .toggle-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #00f0ff;
+      background: rgba(0, 255, 255, 0.1);
+      color: #00f0ff;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00f0ff;
+      z-index: 2;
+    }
+
+    .tech-section .left-btn {
+      left: -20px;
+    }
+
+    .tech-section .right-btn {
+      right: -20px;
+    }
+
+    @media (max-width: 768px) {
+      .tech-section .tech-card {
+        flex-direction: column !important;
+        text-align: center;
+      }
+
+      .tech-section .toggle-btn {
+        display: none;
+      }
+
+      .tech-section .tech-card img {
+        margin: 1rem 0 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="tech-section">
+  <div class="card-wrapper">
+
+    <!-- Arduino (from left) -->
+    <div class="tech-card-wrapper">
+      <div class="toggle-btn left-btn" onclick="toggleCard(this)">❯</div>
+      <div class="tech-card">
+        <div>
+          <h3>Arduino</h3>
+          <p>Rapid prototyping with sensors and logic using open-source platforms.</p>
+          <ul>
+            <li>Embedded Systems</li>
+            <li>Automation</li>
+          </ul>
+        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/9116/9116114.png" alt="Arduino">
+      </div>
+    </div>
+
+    <!-- Trolley (from right + icon on left) -->
+    <div class="tech-card-wrapper">
+      <div class="toggle-btn right-btn" onclick="toggleCard(this)">❮</div>
+      <div class="tech-card from-right right-layout">
+        <img src="https://cdn-icons-png.flaticon.com/512/9116/9116104.png" alt="Trolley">
+        <div>
+          <h3>Autonomous Trolley</h3>
+          <p>Smart vehicles that follow paths and avoid obstacles automatically.</p>
+          <ul>
+            <li>AI Control</li>
+            <li>Tracking Sensors</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mechanical (from left) -->
+    <div class="tech-card-wrapper">
+      <div class="toggle-btn left-btn" onclick="toggleCard(this)">❯</div>
+      <div class="tech-card">
+        <div>
+          <h3>Mechanical Design</h3>
+          <p>3D-printed parts and mechanical automation for precision systems.</p>
+          <ul>
+            <li>CAD Modeling</li>
+            <li>3D Printing</li>
+          </ul>
+        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/9116/9116120.png" alt="Mechanical">
+      </div>
+    </div>
+
+    <!-- Sensor (from right + icon on left) -->
+    <div class="tech-card-wrapper">
+      <div class="toggle-btn right-btn" onclick="toggleCard(this)">❮</div>
+      <div class="tech-card from-right right-layout">
+        <img src="https://cdn-icons-png.flaticon.com/512/9116/9116107.png" alt="Sensor">
+        <div>
+          <h3>Sensor Systems</h3>
+          <p>Real-time data from sensors powering smart environments.</p>
+          <ul>
+            <li>Environmental Sensing</li>
+            <li>Signal Processing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleCard(button) {
+    const card = button.nextElementSibling;
+    card.classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d0c1d, #1a1a2e);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .product-section {
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .product-section h2 {
+      text-align: center;
+      color: #00ffff;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.5rem;
+      width: 280px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #ccc;
+      cursor: pointer;
+    }
+
+    .product-card h3 {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: #00ffff;
+    }
+
+    .product-card p {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-align: justify;
+    }
+
+    /* 模糊背景遮罩 */
+    .image-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+    }
+
+    .image-overlay.active {
+      display: block;
+    }
+
+    /* 动画图片 */
+    .animated-img {
+      position: fixed;
+      z-index: 1001;
+      border-radius: 12px;
+      transition: transform 0.4s ease, width 0.4s ease, height 0.4s ease, top 0.4s ease, left 0.4s ease;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 模糊背景 -->
+<div class="image-overlay" id="overlay"></div>
+
+<!-- ✅ 产品展示部分 -->
+<section id="product" class="product-section">
+  <h2>Product Showcase</h2>
+  <div class="product-grid">
+
+    
+    <!-- Robotic Arm -->
+    <div class="product-card">
+      <img src="pic4.jpg" alt="Robotic Arm">
+      <h3>🤖 Robotic Arm</h3>
+      <p>
+        High-precision design, 3D printed with eco-materials for durability. Tested and ready for integration.
+      </p>
+    </div>
+
+    <!-- Contact Card 无图 -->
+    <div class="product-card">
+      <img src="pic5.jpg" alt="contact">
+      <h3>📞 Contact Us</h3>
+      <p>
+        Have questions or collaboration ideas?<br>
+        Reach out to our product team for expert support and tailored solutions.
+      </p>
+    </div>
+
+    <!-- Tracking Car -->
+    <div class="product-card">
+      <img src="pic3.jpg" alt="Tracking Car">
+      <h3>⚙️ Vehicle Mechanics</h3>
+      <p>
+        Precision-engineered suspension, steering, and drivetrain components.Designed for modular upgrades and optimized load distribution.
+      </p>
+    </div>
+
+    <!-- Vehicle Prototype -->
+    <div class="product-card">
+      <img src="pic1.jpg" alt="Vehicle Prototype">
+      <h3>🚙 Vehicle Prototype</h3>
+      <p>
+        Full-scale functional model showcasing chassis, sensors, and drivetrain.Built for field testing and demonstration in real environments.
+      </p>
+    </div>
+    <!-- Vehicle Prototype -->
+    
+    <div class="product-card">
+      <img src="pic6.jpg" alt="Host Computer">
+      <h3>🖥 Host Computer</h3>
+      <p>
+        Central control unit with real-time monitoring and management capabilities. Optimized for multi-node communication and seamless automation task coordination.
+      </p>
+    </div>
+
+
+
+    <!-- Conveyor Belt -->
+    <div class="product-card">
+      <img src="pic2.jpg" alt="Conveyor Belt">
+      <h3>🔧 Conveyor Belt</h3>
+      <p>
+        Smooth automated delivery system, optimized for modular assembly lines.Energy-efficient motors ensure consistent and quiet operation.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const overlay = document.getElementById('overlay');
+  let animatedImg = null;
+
+  document.querySelectorAll('.product-card img').forEach(img => {
+    img.addEventListener('click', () => {
+      const rect = img.getBoundingClientRect();
+
+      // 创建克隆图像
+      animatedImg = img.cloneNode();
+      animatedImg.classList.add('animated-img');
+      document.body.appendChild(animatedImg);
+
+      // 设置初始位置
+      animatedImg.style.top = `${rect.top}px`;
+      animatedImg.style.left = `${rect.left}px`;
+      animatedImg.style.width = `${rect.width}px`;
+      animatedImg.style.height = `${rect.height}px`;
+
+      // 显示模糊层
+      overlay.classList.add('active');
+
+      // 动画延迟执行（等加入 DOM 后再动）
+      requestAnimationFrame(() => {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const scale = 3;
+
+        // 计算中心后的宽高
+        const newWidth = rect.width * scale;
+        const newHeight = rect.height * scale;
+
+        animatedImg.style.top = `${centerY - newHeight / 2}px`;
+        animatedImg.style.left = `${centerX - newWidth / 2}px`;
+        animatedImg.style.width = `${newWidth}px`;
+        animatedImg.style.height = `${newHeight}px`;
+      });
+    });
+  });
+
+  overlay.addEventListener('click', () => {
+    if (!animatedImg) return;
+
+    // 获取原始图片位置（通过 alt 匹配）
+    const originalImg = Array.from(document.querySelectorAll('.product-card img'))
+      .find(img => img.src === animatedImg.src);
+
+    if (!originalImg) return;
+
+    const rect = originalImg.getBoundingClientRect();
+
+    // 退回原位动画
+    animatedImg.style.top = `${rect.top}px`;
+    animatedImg.style.left = `${rect.left}px`;
+    animatedImg.style.width = `${rect.width}px`;
+    animatedImg.style.height = `${rect.height}px`;
+
+    // 等动画结束后清理
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      animatedImg.remove();
+      animatedImg = null;
+    }, 400); // 与 CSS transition 保持一致
+  });
+</script>
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Showcase</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at center, #060b23 0%, #000000 100%);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+      animation: twinkle 20s infinite linear;
+    }
+
+    @keyframes twinkle {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    .video-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #00e5ff;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px #00e5ff88;
+    }
+
+    .video-card {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      max-width: 960px;
+      width: 100%;
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+      border: 1px solid #00e5ff33;
+      backdrop-filter: blur(8px);
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 0 20px #00e5ff55, 0 0 40px #00e5ff22;
+      border: 2px solid #00e5ff55;
+    }
+
+    .video-frame video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      outline: none;
+    }
+
+    /* Customize video controls (for WebKit browsers) */
+    video::-webkit-media-controls-panel {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 0 0 0.75rem 0.75rem;
+    }
+
+    video::-webkit-media-controls-play-button,
+    video::-webkit-media-controls-volume-slider,
+    video::-webkit-media-controls-mute-button {
+      filter: drop-shadow(0 0 2px #00e5ff);
+    }
+
+    video::-webkit-media-controls-timeline {
+      background: #222;
+      border-radius: 4px;
+    }
+
+    video::-webkit-media-controls-current-time-display,
+    video::-webkit-media-controls-time-remaining-display {
+      color: #00e5ff;
+      text-shadow: 0 0 3px #00e5ff;
+    }
+
+    video::-webkit-media-controls-playback-rate-button {
+      color: #00e5ff;
+    }
+
+    video::-webkit-media-controls-enclosure {
+      border-radius: 0 0 0.75rem 0.75rem;
+    }
+
+    video::-webkit-media-controls-timeline-container {
+      border-radius: 4px;
+    }
+
+    video::-webkit-media-controls-seek-back-button,
+    video::-webkit-media-controls-seek-forward-button {
+      filter: drop-shadow(0 0 3px #00e5ff88);
+    }
+
+    .video-description {
+      margin-top: 1.2rem;
+      font-size: 1.1rem;
+      color: #e0faff;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .video-description {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <section class="video-section">
+    <h2 class="section-title">🎬 Featured Video</h2>
+    <div class="video-card">
+      <div class="video-frame">
+        <video controls autoplay muted playsinline>
+          <source src="VID.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="video-description">
+        Discover the future of robotics innovation and artificial intelligence through this featured presentation. Dive into cutting-edge technology and visionary insights.
+      </div>
+    </div>
+  </section>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About - Stellar Robotics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .about-section {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at bottom, #0d0c1d, #1a1a2e);
+      color: #ffffff;
+      padding: 5rem 2rem;
+    }
+
+    .about-section h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #00ffff;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .about-section .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .about-section .counter {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00ffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-section .description {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-align: justify;
+      color: #e0f7fa;
+    }
+
+    .about-section .highlight {
+      color: #00bfff;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .about-section h2 {
+        font-size: 2rem;
+      }
+
+      .about-section .description {
+        font-size: 1.1rem;
+      }
+
+      .about-section .stats {
+        flex-direction: column;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ✅ 关于我们模块 -->
+<section id="about" class="about-section">
+  <h2>Stellar Robotics</h2>
+
+  <div class="stats">
+    <div>
+      <div class="counter" data-target="100">0%</div>
+      <strong>Project Completion Rate</strong>
+    </div>
+    <div>
+      <div class="counter" data-target="20">0+</div>
+      <strong>Completed Tasks</strong>
+    </div>
+    <div>
+      <div class="counter" data-target="50">0+</div>
+      <strong>Business Partners</strong>
+    </div>
+  </div>
+
+  <div class="description">
+    <p>
+      Stellar Robotics, founded in 2024, is committed to building next-generation intelligent hardware systems. Our engineering team delivers high-performance, scalable solutions through innovation, precision, and seamless integration.
+    </p>
+    <p class="highlight">
+      We specialize in robotics, automation, and smart sensing — driving the adoption of intelligent manufacturing at scale.
+    </p>
+    <p>
+      Our mission is to empower industries and education through technology, promote sustainable innovation, and shape a smarter, more efficient future.
+    </p>
+  </div>
+</section>
+
+<!-- ✅ 计数动画脚本 -->
+<script>
+  const counters = document.querySelectorAll('.counter');
+  const options = {
+    threshold: 0.6
+  };
+
+  const animateCount = (el, target) => {
+    let start = 0;
+    const duration = 1500;
+    const startTime = performance.now();
+
+    const update = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const value = Math.floor(progress * target);
+      el.textContent = el.dataset.target.includes('%') ? `${value}%` : `${value}+`;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    };
+
+    requestAnimationFrame(update);
+  };
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const rawTarget = el.getAttribute('data-target');
+        const target = parseInt(rawTarget.replace('%', ''));
+
+        animateCount(el, target);
+        obs.unobserve(el); // trigger only once
+      }
+    });
+  }, options);
+
+  counters.forEach(counter => observer.observe(counter));
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team Introduction</title>
+  <style>
+    /* 星空背景 */
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at center, #060b23 0%, #000000 100%);
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+  </style>
+
+  <!-- 仅模块内部使用 Orbitron 字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="stars"></div>
+
+  <section class="team-section">
+    <style>
+      /* 所有样式仅限 .team-section 内部作用 */
+      .team-section {
+        font-family: 'Orbitron', sans-serif;
+        padding: 4rem 1rem;
+        position: relative;
+        z-index: 1;
+        color: white;
+      }
+
+      .team-section .team-title {
+        text-align: center;
+        font-size: 2.8rem;
+        color: #00e5ff;
+        font-weight: 700;
+        margin-bottom: 3rem;
+      }
+
+      .team-section .team-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+      }
+
+      .team-section .member-card {
+        background: rgba(10, 10, 30, 0.75);
+        border: 1px solid #00e5ff55;
+        border-radius: 1rem;
+        padding: 1.5rem;
+        width: 300px;
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+
+      .team-section .member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
+      }
+
+      .team-section .member-photo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 2px solid #00e5ff;
+        box-shadow: 0 0 15px #00e5ff88;
+        object-fit: cover;
+        float: left;
+        margin-right: 1rem;
+      }
+
+      .team-section .member-name {
+        font-size: 1.9rem;
+        font-weight: bold;
+        color: #00e5ff;
+        margin-top: 0.2rem;
+      }
+
+      .team-section .member-role {
+        font-size: 0.95rem;
+        color: #dddddd;
+        margin-top: 0.3rem;
+      }
+
+      .team-section .member-description {
+        clear: both;
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: #cccccc;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 768px) {
+        .team-section .member-card {
+          width: 90%;
+        }
+      }
+    </style>
+
+    <h2 class="team-title"> Meet Our Team</h2>
+    <div class="team-grid">
+      <!-- Member 1 -->
+      <div class="member-card">
+        <img src="man1.jpg" alt="Member 1" class="member-photo" />
+        <div class="member-name">Huang <br> Rui</div>
+        <div class="member-role">Director & Head of Public Relations</div>
+        <div class="member-description">
+          
+        </div>
+      </div>
+      <!-- Member 2 -->
+      <div class="member-card">
+        <img src="man2.jpg" alt="Member 2" class="member-photo" />
+        <div class="member-name">Liu <br> Entong</div>
+        <div class="member-role">Lead Mechanical Designer</div>
+        <div class="member-description">
+          
+        </div>
+      </div>
+      <!-- Member 3 -->
+      <div class="member-card">
+        <img src="man3.jpg" alt="Member 3" class="member-photo" />
+        <div class="member-name">Liu Xiaodong</div>
+        <div class="member-role">Lead Digital Systems Engineer</div>
+        <div class="member-description">
+          
+        </div>
+      </div>
+      <!-- Member 4 -->
+      <div class="member-card">
+        <img src="man4.jpg" alt="Member 4" class="member-photo" />
+        <div class="member-name">Wang Yuanhong</div>
+        <div class="member-role">Lead Electronics & Wiring Engineer</div>
+        <div class="member-description">
+        
+        </div>
+      </div>
+      <!-- Member 5 -->
+      <div class="member-card">
+        <img src="man5.jpg" alt="Member 5" class="member-photo" />
+        <div class="member-name">Wen <br> Han</div>
+        <div class="member-role">Software & Digital Systems Engineer</div>
+        <div class="member-description">
+          
+        </div>
+      </div>
+      <!-- Member 6 -->
+      <div class="member-card">
+        <img src="man6.jpg" alt="Member 6" class="member-photo" />
+        <div class="member-name">Yan Hechengyi</div>
+        <div class="member-role">Company Secretary & Web Designer</div>
+        <div class="member-description">
+         
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <div id="contact"></div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Section</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .contact-section {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #0d0d1a;
+      color: #ffffff;
+      padding: 2rem;
+      max-width: 700px;
+      margin: 3rem auto;
+      border-radius: 16px;
+      box-shadow: 0 0 0 1px #00e5ff, 0 0 20px rgba(0, 229, 255, 0.4);
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .contact-section h2 {
+      color: #00e5ff;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .contact-section .info {
+      font-size: 1rem;
+      line-height: 2;
+      color: #cccccc;
+    }
+
+    .contact-section .info span {
+      display: block;
+      margin: 1rem 0;
+    }
+
+    .contact-section .info strong {
+      color: #ffffff;
+    }
+
+    .contact-section .btn {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: #00e5ff;
+      color: #000;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact-section .btn:hover {
+      background: #00bcd4;
+    }
+
+    /* Modal Styles */
+    .contact-modal {
+      display: none;
+      position: fixed;
+      z-index: 9;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .contact-modal .modal-content {
+      background-color: #1a1a2e;
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      margin: 8% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 0 10px #00e5ff;
+    }
+
+    .contact-modal .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      color: #00e5ff;
+      cursor: pointer;
+    }
+
+    .contact-modal form input,
+    .contact-modal form textarea {
+      width: 100%;
+      background: #0d0d1a;
+      color: #00e5ff;
+      border: 1px solid #00e5ff;
+      padding: 0.6rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .contact-modal form textarea {
+      resize: vertical;
+      height: 120px;
+    }
+
+    .contact-modal form button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: #00e5ff;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .contact-modal form button:hover {
+      background: #00bcd4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-section">
+    <h2>Contact Us</h2>
+    <div class="info">
+      <span>📧 Email: <strong>contact@novawebs.com</strong></span>
+      <span>☎️ Phone: <strong>400-800-8888</strong></span>
+      <span>🕒 Working Hours: <strong>Monday to Friday, 9:00 AM - 6:00 PM</strong></span>
+    </div>
+    <button class="btn" onclick="openModal()">Send Feedback</button>
+  </div>
+
+  <!-- Modal -->
+  <div class="contact-modal" id="feedbackModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 style="color: #00e5ff;">Feedback Form</h3>
+      <form onsubmit="submitFeedback(event)">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById("feedbackModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("feedbackModal").style.display = "none";
+    }
+
+    function submitFeedback(event) {
+      event.preventDefault();
+      alert("Thank you for your feedback!");
+      closeModal();
+    }
+
+    // Close modal by clicking outside
+    window.onclick = function(e) {
+      const modal = document.getElementById("feedbackModal");
+      if (e.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Custom Sci-Fi Cursor</title>
+    <style>
+      /* Hide default cursor */
+      body {
+        cursor: none;
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        font-family: 'Orbitron', sans-serif;
+        overflow-x: hidden;
+      }
+  
+      /* Custom arrow cursor */
+      .custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+      }
+  
+      .arrow-shape {
+        width: 0;
+        height: 0;
+        border-left: 12px solid white;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        position: relative;
+        animation: glow 1s infinite alternate;
+      }
+  
+      .arrow-shape::before {
+        content: '';
+        position: absolute;
+        left: -14px;
+        top: -6px;
+        width: 24px;
+        height: 12px;
+        background: linear-gradient(120deg, rgba(255,255,255,0.2), rgba(0,255,255,0.6), rgba(255,255,255,0.2));
+        filter: blur(4px);
+        z-index: -1;
+        transform: rotate(15deg);
+        animation: shimmer 2s linear infinite;
+      }
+  
+      @keyframes glow {
+        from {
+          filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.5));
+        }
+        to {
+          filter: drop-shadow(0 0 10px rgba(0, 255, 255, 1));
+        }
+      }
+  
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-50%) rotate(15deg);
+        }
+        100% {
+          transform: translateX(50%) rotate(15deg);
+        }
+      }
+  
+      .content11 {
+        padding: 100px 20px;
+      font-size: 28px; /* 更大的字体 */
+      max-width: 1000px;
+      margin: 0 auto;
+      color: #ADD8E6; /* 浅蓝色 */
+      text-align: center; /* 居中排列文本 */
+      line-height: 1.6;
+      letter-spacing: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="custom-cursor" id="cursor">
+      <div class="arrow-shape"></div>
+    </div>
+  
+    <div class="content11">
+      <p>Welcome to Stellar Robotics</p>
+      <p>Delivering intelligent technology solutions tailored for you.</p>
+      <p>Seamlessly connected, linking the universe.</p>
+      <p>We are everywhere.</p>
+    </div>
+  
+    <script>
+      const cursor = document.getElementById('cursor');
+  
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      });
+    </script>
+  </body>
+  </html>
+
+
+
+  <!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>宇宙星空背景</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #0a0f2c 0%, #000 100%);
+      min-height: 100%;
+      font-family: sans-serif;
+    }
+
+    /* 背景 canvas（星空 + 尾巴） */
+    #star-canvas, #tail-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    /* 流星容器 */
+    .meteor-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .meteor {
+      position: absolute;
+      width: 2px;
+      height: 100px;
+      background: linear-gradient(0deg, rgba(255, 255, 255, 1), transparent);
+      opacity: 0;
+      transform: rotate(-30deg);
+      animation: meteor-fall 2s linear forwards;
+    }
+
+    @keyframes meteor-fall {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-30deg);
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(300px, 600px) rotate(-30deg);
+        opacity: 0;
+      }
+    }
+
+    /* 页面主内容 */
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 2rem;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 星空背景 -->
+  <canvas id="star-canvas"></canvas>
+  <!-- 鼠标尾巴 -->
+  <canvas id="tail-canvas"></canvas>
+  <!-- 流星 -->
+  <div class="meteor-container" id="meteor-container"></div>
+
+  <script>
+    // 星空背景
+    const starCanvas = document.getElementById('star-canvas');
+    const ctx = starCanvas.getContext('2d');
+
+    function resizeCanvas() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    function drawStars(count) {
+      ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      for (let i = 0; i < count; i++) {
+        const x = Math.random() * starCanvas.width;
+        const y = Math.random() * starCanvas.height;
+        const radius = Math.random() * 1.2 + 0.5;
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + (Math.random() * 0.6 + 0.4) + ')';
+        ctx.fill();
+      }
+    }
+    drawStars(200);
+
+    // 彗尾效果
+    const tailCanvas = document.getElementById('tail-canvas');
+    const tailCtx = tailCanvas.getContext('2d');
+    tailCanvas.width = window.innerWidth;
+    tailCanvas.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+      tailCanvas.width = window.innerWidth;
+      tailCanvas.height = window.innerHeight;
+    });
+
+    let particles = [];
+
+    document.addEventListener('mousemove', (e) => {
+      for (let i = 0; i < 3; i++) {
+        particles.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: Math.random() * 2 + 1,
+          alpha: 1,
+          dx: (Math.random() - 0.5) * 2,
+          dy: (Math.random() - 0.5) * 2
+        });
+      }
+    });
+
+    function animateTail() {
+      tailCtx.clearRect(0, 0, tailCanvas.width, tailCanvas.height);
+      particles.forEach((p, index) => {
+        p.x += p.dx;
+        p.y += p.dy;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0) {
+          particles.splice(index, 1);
+        } else {
+          tailCtx.beginPath();
+          tailCtx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+          tailCtx.fillStyle = `rgba(255,255,255,${Math.min(1, p.alpha * 1.5)})`;
+          tailCtx.fill();
+        }
+      });
+      requestAnimationFrame(animateTail);
+    }
+    animateTail();
+
+    // 流星
+    function createMeteor() {
+      const meteor = document.createElement('div');
+      meteor.classList.add('meteor');
+
+      meteor.style.left = Math.random() * window.innerWidth + 'px';
+      meteor.style.top = Math.random() * window.innerHeight * 0.5 + 'px';
+
+      const container = document.getElementById('meteor-container');
+      container.appendChild(meteor);
+
+      meteor.addEventListener('animationend', () => {
+        meteor.remove();
+      });
+    }
+    setInterval(createMeteor, 1000);
+  </script>
+</body>
+</html>
