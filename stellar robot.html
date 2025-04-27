@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HazardHunter HW Tech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: 'Orbitron', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    /* ======= NAVBAR ======= */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #222;
+    }
+
+    .navbar .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: #007bff;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-btn {
+      background: #007bff;
+      color: #fff;
+      padding: 0.5rem 1.2rem;
+      border: none;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact-btn:hover {
+      background: #0056b3;
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .spacer {
+      height: 72px;
+    }
+
+    /* ========== HERO SLIDER ========== */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 66vh;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      width: 400%;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      flex: 1 0 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-buttons {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1rem;
+    }
+
+    .nav-buttons button {
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .pagination {
+      position: absolute;
+      bottom: 1rem;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: white;
+    }
+
+    /* ======= CONTENT ======= */
+    .content {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .content h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .core-business {
+      padding: 3rem 1rem;
+      background: #f9f9f9;
+      text-align: center;
+    }
+
+    .core-business h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .core-business p {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      width: 220px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card button {
+      margin-top: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 90%;
+      }
+
+      .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======= NAVBAR ======= -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="logo-placeholder.png" alt="Logo">
+      Stellar Robotics
+    </div>
+    <nav class="nav-links">
+      <a href="#home" class="active">Homepage</a>
+      <a href="#solution">Solution</a>
+      <a href="#technology">Technology</a>
+      <a href="#product">Product</a>
+      <a href="#about">About us</a>
+    </nav>
+    <div class="nav-right">
+      <button class="contact-btn">Contact us</button>
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+      </svg>
+    </div>
+  </header>
+
+  <div class="spacer"></div>
+
+  <!-- ======= HERO ======= -->
+  <div class="hero" id="home">
+    <div class="slides" id="slides">
+      <div class="slide"><img src="pic1.jpg" alt="Slide 1"></div>
+      <div class="slide"><img src="pic2.jpg" alt="Slide 2"></div>
+      <div class="slide"><img src="pic3.jpg" alt="Slide 3"></div>
+      <div class="slide"><img src="pic4.jpg" alt="Slide 4"></div>
+    </div>
+    <div class="nav-buttons">
+      <button id="prev">&#10094;</button>
+      <button id="next">&#10095;</button>
+    </div>
+    <div class="pagination" id="pagination">
+      <div class="dot active" data-index="0"></div>
+      <div class="dot" data-index="1"></div>
+      <div class="dot" data-index="2"></div>
+      <div class="dot" data-index="3"></div>
+    </div>
+  </div>
+
+  <!-- ======= CONTENT TEXT ======= -->
+  <div class="content">
+    <h1>Welcome to Our Business Website</h1>
+    <p>
+      We specialize in innovative solutions for intelligent environments. Our services include smart hardware development, AI-powered automation, and customized system integration to meet the needs of modern industries.
+    </p>
+  </div>
+
+  <!-- ======= CORE BUSINESS ======= -->
+  <div class="core-business" id="solution">
+    <h2>Core Business</h2>
+    <p>
+      Based on the concept of environmental protection and customer needs, our team designed an Arduino-driven smart garbage pickup car. Focus on creating user-friendly control systems, refined and reliable mechanical structures, providing professional installation and commissioning. Designed to provide a one-stop intelligent solution for cleaning and waste sorting.
+    </p>
+    <div class="cards">
+      <div class="card">
+        <img src="https://img.icons8.com/fluency/96/earth-planet.png" alt="Environmental">
+        <h3>Environmental</h3>
+        <button>Intelligent Solution</button>
+      </div>
+      <div class="card">
+        <img src="https://img.icons8.com/fluency/96/robot-2.png" alt="Sorting">
+        <h3>Garbage Sorting</h3>
+        <button>Sorting Technology</button>
+      </div>
+      <div class="card">
+        <img src="https://img.icons8.com/fluency/96/maintenance.png" alt="Cleaning">
+        <h3>Automated Clean</h3>
+        <button>Cleaning Efficiency</button>
+      </div>
+      <div class="card">
+        <img src="https://img.icons8.com/fluency/96/computer.png" alt="Arduino">
+        <h3>Arduino Control</h3>
+        <button>User-friendly</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= SLIDER SCRIPT ======= -->
+  <script>
+    const slides = document.getElementById('slides');
+    const dots = document.querySelectorAll('.dot');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    let currentIndex = 0;
+    let interval = setInterval(nextSlide, 10000);
+
+    function goToSlide(index) {
+      currentIndex = index;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      updateDots();
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % 4;
+      goToSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + 4) % 4;
+      goToSlide(currentIndex);
+    }
+
+    function updateDots() {
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+    }
+
+    next.addEventListener('click', () => {
+      nextSlide();
+      resetInterval();
+    });
+
+    prev.addEventListener('click', () => {
+      prevSlide();
+      resetInterval();
+    });
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.getAttribute('data-index'));
+        goToSlide(index);
+        resetInterval();
+      });
+    });
+
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(nextSlide, 10000);
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HazardHunter HW Tech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Orbitron', sans-serif; scroll-behavior: smooth; }
+
+    /* === NAVBAR === */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+    }
+
+    .navbar .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #222;
+    }
+
+    .navbar .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: #007bff;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-btn {
+      background: #007bff;
+      color: #fff;
+      padding: 0.5rem 1.2rem;
+      border: none;
+      border-radius: 999px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .contact-btn:hover {
+      background: #0056b3;
+    }
+
+    .search-icon {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    /* === SECTIONS === */
+    .spacer {
+      height: 72px; /* 顶部导航栏占位 */
+    }
+
+    .section {
+      padding: 3rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 1000px;
+      text-align: center;
+      margin: 0 auto 2rem;
+    }
+
+    .highlight {
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .feature-block {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      background: linear-gradient(to right, #eaf4ff, #f9fbff);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+
+    .feature-text {
+      flex: 1 1 48%;
+      padding: 1rem;
+    }
+
+    .feature-text h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-text p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-text ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    .feature-text ul li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .feature-text ul li::before {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #007bff;
+      border-radius: 50%;
+      left: 0;
+      top: 6px;
+    }
+
+    .feature-image {
+      flex: 1 1 48%;
+      text-align: center;
+    }
+
+    .feature-image img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+      .feature-block {
+        flex-direction: column;
+      }
+      .feature-text, .feature-image {
+        flex: 1 1 100%;
+      }
+      .feature-image img {
+        margin-top: 1rem;
+      }
+      .nav-links {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === NAVBAR === -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="logo-placeholder.png" alt="Logo">
+      HazardHunter HW Tech
+    </div>
+    <nav class="nav-links">
+      <a href="#home" class="active">Homepage</a>
+      <a href="#solution">Solution</a>
+      <a href="#product">Product</a>
+      <a href="#tech">Technology</a>
+      <a href="#about">About us</a>
+    </nav>
+    <div class="nav-right">
+      <button class="contact-btn">Contact us</button>
+      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+      </svg>
+    </div>
+  </header>
+
+  <!-- 占位符防止 navbar 覆盖 -->
+  <div class="spacer"></div>
+
+  <!-- === BUSINESS ADVANTAGE SECTION === -->
+  <section class="section" id="solution">
+    <h2>Business Advantage</h2>
+    <p>
+      HizardHunter HW Tech, founded in 2024 and headquartered in Xidian University, focuses on the field of 
+      <span class="highlight">automatic garbage pickup trolley developed based on Arduino, intelligent robots and environmental protection equipment</span>,
+      with a high degree of innovation awareness and professional technical capabilities, and constantly promote product development and technological innovation.
+    </p>
+  </section>
+
+  <!-- === FEATURE BLOCKS === -->
+
+  <section class="section" id="tech">
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3>Arduino</h3>
+        <p>
+          Develop and implement innovative projects and solutions based on the Arduino platform.
+          Our team uses Arduino to design various smart devices and systems, constantly exploring the cutting edge of technology.
+        </p>
+        <ul>
+          <li>Arduino</li>
+          <li>Open-source</li>
+          <li>Electronic Prototypes</li>
+          <li>Smart Devices</li>
+        </ul>
+      </div>
+      <div class="feature-image">
+        <img src="placeholder.png" alt="Arduino Image Placeholder">
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3>Trolley</h3>
+        <p>
+          Drive and adjust the direction by sensing the lines on a particular path.
+          By programming control, the tracking car can complete complex tasks such as path tracking, obstacle avoidance and speed adjustment.
+        </p>
+        <ul>
+          <li>Automatic Driving</li>
+          <li>Programming Control</li>
+          <li>Robotics</li>
+          <li>Electronics</li>
+        </ul>
+      </div>
+      <div class="feature-image">
+        <img src="placeholder.png" alt="Trolley Image Placeholder">
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3>Mechanical</h3>
+        <p>
+          Combined with 3D printing technology, we are able to quickly design and produce complex mechanical parts,
+          accelerating product development cycles while reducing costs.
+        </p>
+        <ul>
+          <li>Mechanical Design</li>
+          <li>Robotic Arm</li>
+          <li>3D Printing</li>
+          <li>Prototyping</li>
+          <li>Automation Equipment</li>
+        </ul>
+      </div>
+      <div class="feature-image">
+        <img src="placeholder.png" alt="Mechanical Image Placeholder">
+      </div>
+    </div>
+
+    <div class="feature-block">
+      <div class="feature-text">
+        <h3>Sensor</h3>
+        <p>
+          By integrating advanced sensor technology, we can design systems that respond autonomously,
+          increasing efficiency and enhancing the user experience.
+        </p>
+        <ul>
+          <li>Photoelectric Sensors</li>
+          <li>Color Sensors</li>
+          <li>Electrical Signal Processing</li>
+          <li>Environmental Monitoring</li>
+        </ul>
+      </div>
+      <div class="feature-image">
+        <img src="placeholder.png" alt="Sensor Image Placeholder">
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
+<section class="section" id="technology">
+    <h2 style="text-align:center; margin-bottom: 2rem;">Technology Strength</h2>
+  
+    <div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start;">
+      <!-- Arduino Software -->
+      <img src="arduino-program.jpg" alt="Arduino Programming" style="width:300px; border-radius:8px;">
+      <div style="flex:1; min-width:300px;">
+        <h3>Proficient In Arduino Software Programming</h3>
+        <p>
+          We use Arduino as the main control board of the product, which integrates infrared tracking sensor, color sensor, ultrasonic ranging module, L298P motor driver chip, multiple steering gear and Bluetooth communication module.
+          We connect all the modules together through programming, and also design highly accurate infrared tracking algorithm, ultrasonic ranging algorithm and color recognition algorithm to achieve high performance, high efficiency and high accuracy of the product.
+        </p>
+      </div>
+    </div>
+  
+    <div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:flex-start; margin-top:3rem;">
+      <!-- 3D Modeling -->
+      <img src="3d-modeling.jpg" alt="3D Modeling" style="width:300px; border-radius:8px;">
+      <div style="flex:1; min-width:300px;">
+        <h3>Excellent 3D Modeling Technology</h3>
+        <p>
+          We are proficient in advanced modeling technology, and can tailor the selection and configuration of the most suitable fixture to ensure that it perfectly fits your project requirements.
+          Our modeling process is strict and fine, paying attention to every detail, and the model is extremely accurate.
+          In addition, our assembly team has solid expertise and is skilled in using the latest 3D printing technology to create strong and durable parts that meet your stringent requirements for product quality and performance.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="product" style="background:#fff;">
+    <h2 style="text-align:center; color:#f60;">Show Our Physical Products</h2>
+    <p style="text-align:center; margin-bottom:2rem;">
+      The most intuitive understanding of our product capabilities<br />
+      Complete product details<br />
+      Easy for users to purchase
+    </p>
+  
+    <div style="display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;">
+  
+      <!-- Contact Card -->
+      <div style="background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); width:250px; padding:1rem;">
+        <img src="contact.jpg" alt="Contact" style="width:100%; border-radius:8px;">
+        <div style="margin-top:1rem;">
+          <strong>Any question?<br />Contact managing director</strong>
+          <p>Click on</p>
+          <a href="#contact"><button class="contact-btn">Contact us</button></a>
+        </div>
+      </div>
+  
+      <!-- Product 1 -->
+      <div style="background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); width:250px; padding:1rem;">
+        <img src="trackingcar.jpg" alt="Tracking Car" style="width:100%; border-radius:8px;">
+        <p><strong>Name:</strong> Tracking car</p>
+        <p>Professional debugging and assembly, adapt to complex path tracking and obstacle avoidance tasks.</p>
+      </div>
+  
+      <!-- Product 2 -->
+      <div style="background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); width:250px; padding:1rem;">
+        <img src="roboticarm.jpg" alt="Robotic Arm" style="width:100%; border-radius:8px;">
+        <p><strong>Name:</strong> Robotic arm</p>
+        <p>Accurately modeled, printed from environmentally friendly materials, high strength and durability.</p>
+      </div>
+  
+    </div>
+  </section>
